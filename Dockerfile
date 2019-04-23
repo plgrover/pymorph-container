@@ -27,6 +27,7 @@ RUN git clone https://github.com/plgrover/pymorph.git
 RUN git clone -b maint https://bitbucket.org/petsc/petsc petsc
 WORKDIR "/petsc"
 RUN ./config/configure.py --with-cc=gcc --with-cxx=g++ --with-python=1 --download-mpich=1 --with-shared-libraries=1 --with-64-bit-indices=1
+RUN make PETSC_DIR=/petsc/ PETSC_ARCH=arch-linux-c-debug all
 WORKDIR "/"
 
 RUN git clone https://github.com/clawpack/clawpack.git clawpack
@@ -35,6 +36,8 @@ RUN python setup.py git-dev
 RUN pip install -e .
 WORKDIR "/clawpack/riemann"
 RUN git remote add plgrover https://github.com/plgrover/riemann.git
+
+RUN pip install petsc4py
 
 #COPY ..
 
